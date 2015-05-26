@@ -1,0 +1,52 @@
+// Place all the styles related to the landing controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#welcome {
+    background-color: #2d9cdb;
+    color: white;
+    font-family: serif;
+    font-style: oblique;
+    font-weight: bold;
+    text-align: center;
+    top: 0px;
+    padding-top: 20px;
+    position: absolute;
+    margin-top: 0px;
+    width: 100%;
+    left: 0px;
+}
+
+#info {
+    height: calc(100% - 176px);
+    left: 5px;
+    margin-top: 20px;
+    position: absolute;
+    top: 62px;
+    width: calc(50% - 5px);
+}
+
+#enterBut{
+	background-color: #2d9cdb;
+	color:white;
+	width: 200px; 
+	height: 100px;
+	border:solid 1px black; 
+	font-size: 20px;
+	border-radius: 2px;
+	position: absolute; 
+	bottom: 10px; 
+	left: calc(50% - 100px);
+}
+
+#treeImage {
+    background-image:image-url('treed3.jpg');
+    background-repeat: no-repeat;
+    background-size: contain !important;
+    height: 100px;
+    position: absolute;
+    right: 5px;
+    top: 62px;
+    width: calc(50% - 5px);
+    height: calc(100% - 176px);
+    z-index: 2;
+    }
