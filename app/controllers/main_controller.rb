@@ -158,15 +158,15 @@ class MainController < ApplicationController
 	   param << whereStr
 	   
 	   empty = true
-	   for i in input
-		  if i.length > 0
+	   for val in input
+		  if val.length > 0
 			 empty = false  
-			 puts 'my input parameter is: #{i}'
-			 buildString = '%#{i}%'
+			 puts "my input parameter is: #{val}"
+			 buildString = "%#{val}%"
 			 param << buildString
 		  end  
 	   end
-	   binding.pry
+	   #binding.pry
 	   if empty 
 		  return nil
 	   else 
