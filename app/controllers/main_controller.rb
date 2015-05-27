@@ -91,24 +91,29 @@ class MainController < ApplicationController
 		else
 			inData = data
 		end
+		puts "pre where clause"
 		whereclause = whereparams(inData)
 		results = nil 
-		
+		puts "post where clause"
 		# run the queries based on weather or not parameters were passed	
 		if whereclause != nil
-			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :taxaclass, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).where(*whereclause).limit(1000).offset(starting).distinct
+			puts "Attempting query"
+			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :taxaclass, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).where(*whereclause).limit(10).offset(starting).distinct
+			puts "post query"
 		else
-		results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :taxaclass, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).limit(1000).offset(starting).distinct	
+			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :taxaclass, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).limit(1000).offset(starting).distinct	
 		end	  
 		
 		retStr = "<table><tr><th>Header</th><th>Taxon</th><th>Amino Sequence</th><th>Coding Sequence</th><th>Nucleotide Sequence</th><th>Description</th><th>Read Depth</th><th>Go Reduction</th>" 
-		  
+		puts "building results"  
+		#binding.pry
 		for accession in results
-	    	retStr += "<tr><td>#{accession.header}</td><td>#{accession.taxaclass}</td><td class='sequence'><div class='scrollable'>#{accession.protein_sequence}</div></td><td class='sequence'><div class='scrollable'>#{accession.coding_sequence}</div></td><td class='sequence'><div class='scrollable'>#{accession.raw_nucleotide}</div></td><td><div class='scrollable'>#{accession.interpro_desc}</div></td><td>#{accession.read_depth}</td><td>#{accession.name}</td></tr>"
+	    	retStr += "<tr><td>#{accession.header}</td><td>#{accession.taxaclass}</td><td class='sequence'><div class='scrollable'>#{accession.protein_sequence}</div></td><td class='sequence'><div class='scrollable'>#{accession.coding_sequence}</div></td><td class='sequence'><div class='scrollable'>#{accession.raw_nucleotide}</div></td><td>#{accession.interpro_desc}</td><td>#{accession.read_depth}</td><td>#{accession.name}</td></tr>"
 	    end
-	 
-	  retStr += "</table>"
-	  render html: retStr.html_safe
+		puts "returning"
+		#binding.pry
+		retStr += "</table>"
+		render html: retStr.html_safe
 		
 		 
 	end	
@@ -156,11 +161,12 @@ class MainController < ApplicationController
 	   for i in input
 		  if i.length > 0
 			 empty = false  
+			 puts 'my input parameter is: #{i}'
 			 buildString = '%#{i}%'
 			 param << buildString
 		  end  
 	   end
-	   
+	   binding.pry
 	   if empty 
 		  return nil
 	   else 

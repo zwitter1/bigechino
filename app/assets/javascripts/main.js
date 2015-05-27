@@ -7,7 +7,8 @@ var go = null;
 
 $(document).ready(function(){
 	$("#loader-wrapper").hide()
-	$("#buttonSet").hide(); 
+	//$("#buttonSet").hide(); 
+	$(".spinner").hide()
 	$("#allDesc").click(function(){
 		
 		currentPos = 0; 
@@ -24,12 +25,12 @@ $(document).ready(function(){
 	});
 	
 	$("#holes").click(function(){
+		$(".spinner").show()
 		$.ajax({
 			url: 'holes',
 			type:'GET',
 			success:function(data){
-				
-				$("#buttonSet").show(); 
+				$(".spinner").hide() 
 				show = $.parseHTML(data);
 				$("#tableHolder").html(show);
 			}
@@ -39,14 +40,14 @@ $(document).ready(function(){
 	
 	
 	$("#allSeq").click(function(){
+		$(".spinner").show()
 		currentPos = 0;
 		page = "sequence"
 		$.ajax({
 			url: 'seq',
 			type:'GET',
 			success:function(data){
-				
-				$("#buttonSet").show(); 
+				$(".spinner").hide() 
 				show = $.parseHTML(data);
 				$("#tableHolder").html(show);
 				currentPos = currentPos + 1000;
@@ -55,7 +56,10 @@ $(document).ready(function(){
 	});
 	
 	$("#previous").click(function(){
-		if (currentPos == 1000){
+		if (currentPos == 1000 || currentPos == 0){
+			$("#buttonSet").addClass('wobble animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$(this).removeClass();
+			});
 			return;
 		}
 		
@@ -93,6 +97,12 @@ $(document).ready(function(){
 	
 	
 	$("#next").click(function(){
+		if(currentPos == 0){
+			$("#buttonSet").addClass('wobble animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$(this).removeClass();
+			});
+			return;
+		}
 		var data = "";
 		if(page == 'search')
 			taxon = $("#taxonIn").val();
@@ -131,6 +141,10 @@ $(document).ready(function(){
 		go = $("#goIn").val();	
 		page = "search"
 		currentPos = 0;
+		$(".spinner").show()
+		$(".spinner").addClass('fadeInUp animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$(this).removeClass().addClass('spinner');
+			});
 		
 		var data= [taxon, description, readD, go]		
 		$.ajax({
@@ -138,7 +152,7 @@ $(document).ready(function(){
 			type: 'GET',
 			data: {"data": data },
 			success:function(retData){
-				$("#buttonSet").show();
+				$(".spinner").hide()
 				show = $.parseHTML(retData);
 				$("#tableHolder").html(show);
 				currentPos = currentPos + 1000;
