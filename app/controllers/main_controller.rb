@@ -52,11 +52,12 @@ class MainController < ApplicationController
 	   start = params['stTime']
 	   page = params['page']
 	   data = params['data']
+	   count = params['count']
 	   
 	   if page == 'sequence'
 	   	seq(start)
 	   else if page == "search"
-	   	search(start, data)
+	   	search(start, data, count)
 	   end
 	   
     end
@@ -66,11 +67,12 @@ class MainController < ApplicationController
 	   start = params['stTime']
 	   page = params['page']
 	   data = params['data']
+	   count = params['count']
 	   
 	   if page == 'sequence'
 	   	seq(start)
 	   else if page == "search"
-	   	search(start, data)
+	   	search(start, data, count)
 	   end
    end
    end
@@ -90,8 +92,11 @@ class MainController < ApplicationController
    
    
    
-   def search(starting = 0, data = nil)
+   def search(starting = 0, data = nil, count = 10)
 	    indata = nil
+	    if params['count'].length > 0 
+			count = params['count'].to_i 
+	    end
 		if data == nil or data.length == 0
 			inData = params['data']
 		else
@@ -104,10 +109,10 @@ class MainController < ApplicationController
 		# run the queries based on weather or not parameters were passed	
 		if whereclause != nil
 			puts "Attempting query"
-			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :genus, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).where(*whereclause).limit(10).offset(starting)#.distinct
+			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :genus, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).where(*whereclause).limit(count).offset(starting)#.distinct
 			puts "post query"
 		else
-			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :genus, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).limit(1000).offset(starting).distinct	
+			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :genus, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).limit(count).offset(starting).distinct	
 		end	  
 		
 		retStr = "<table><tr><th>Header</th><th>Taxon</th><th>Amino Sequence</th><th>Coding Sequence</th><th>Nucleotide Sequence</th><th>Description</th><th>Read Depth</th><th>Go Reduction</th>" 
@@ -159,13 +164,19 @@ class MainController < ApplicationController
 	   param << whereStr
 	   
 	   empty = true
+	   pos = 0
 	   for val in input
 		  if val.length > 0
 			 empty = false  
 			 puts "my input parameter is: #{val}"
-			 buildString = "%#{val}%"
+			 if pos == 1
+				buildString = "#{val}"
+			 else
+				buildString = "%#{val}%"
+			 end
 			 param << buildString
-		  end  
+		  end 
+		  pos = pos + 1 
 	   end
 	   #binding.pry
 	   if empty 

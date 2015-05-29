@@ -1,4 +1,4 @@
-var currentPos = 0
+var currentPos = null;
 var page =''
 var taxon = null;
 var description = null;
@@ -19,7 +19,7 @@ $(document).ready(function(){
 				$("#buttonSet").show(); 
 				show = $.parseHTML(data);
 				$("#tableHolder").html(show);
-				currentPos = currentPos + 1000; 
+				//currentPos = currentPos + Number($("#count").val()); 
 			}
 		});
 	});
@@ -50,7 +50,7 @@ $(document).ready(function(){
 				$(".spinner").hide() 
 				show = $.parseHTML(data);
 				$("#tableHolder").html(show);
-				currentPos = currentPos + 1000;
+				//currentPos = currentPos + Number($("#count").val());
 			}
 		});
 	});
@@ -69,14 +69,18 @@ $(document).ready(function(){
 			description = $("#descIn").val();
 			readD = $("#readIn").val();
 			go = $("#goIn").val();
-			
-			data = [taxon, description, readD, go];	
-		
+			if (taxon == "None"){
+				taxon = ""
+			}
+			data = [taxon, readD, go];	
+		if (currentPos > 0){	
+					currentPos = currentPos - Number($("#count").val()); 
+				}
 		
 		$.ajax({
 			url: 'prev',
 			type: 'GET',
-			data: {'stTime': currentPos, 'page': page, 'data': data},
+			data: {'stTime': currentPos, 'page': page, 'data': data, 'count': $("#count").val()},
 			success: function(data){
 				show = $.parseHTML(data);
 				//$("#tableHolder").scrollTop(0);
@@ -88,16 +92,14 @@ $(document).ready(function(){
 				//$("#tableHolder").scrollTop(0);
 				
 				$("#tableHolder").html(show);
-				if (currentPos > 0){	
-					currentPos = currentPos - 1000; 
-				}
+				
 			}
 		});
 	});
 	
 	
 	$("#next").click(function(){
-		if(currentPos == 0){
+		if(currentPos == null){
 			$("#buttonSet").addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 				$(this).removeClass();
 			});
@@ -106,17 +108,20 @@ $(document).ready(function(){
 		var data = "";
 		if(page == 'search')
 			taxon = $("#taxonIn").val();
-			description = $("#descIn").val();
 			readD = $("#readIn").val();
 			go = $("#goIn").val();
 			
-			data = [taxon, description, readD, go];	
-		
+			if (taxon == "None"){
+				taxon = ""
+			}
+			
+			data = [taxon, readD, go];	
+		currentPos = currentPos + Number($("#count").val()); 	
 		
 		$.ajax({
 			url: 'next',
 			type: 'GET',
-			data: {'stTime': currentPos, 'page': page, 'data': data},
+			data: {'stTime': currentPos, 'page': page, 'data': data, 'count': $("#count").val()},
 			success: function(data){
 				show = $.parseHTML(data);
 				//$("#tableHolder").scrollTop(0);
@@ -129,7 +134,7 @@ $(document).ready(function(){
 				
 				$("#tableHolder").html(show);
 					
-				currentPos = currentPos + 1000; 
+				
 			}
 		});
 	});
@@ -154,12 +159,12 @@ $(document).ready(function(){
 		$.ajax({
 			url: 'search',
 			type: 'GET',
-			data: {"data": data },
+			data: {"data": data , "count": $("#count").val()},
 			success:function(retData){
 				$(".spinner").hide()
 				show = $.parseHTML(retData);
 				$("#tableHolder").html(show);
-				currentPos = currentPos + 1000;
+				//currentPos = currentPos + Number($("#count").val());
 			}
 		});
 	});
