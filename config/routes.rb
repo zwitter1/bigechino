@@ -3,18 +3,20 @@ Rails.application.routes.draw do
 
   get 'landing/enter'
   
+  get 'landing/test'
+  
   get 'main/primary'
   
-  get 'main/desc' => 'main#desc'
-  get 'main/seq' => 'main#seq'
+  get 'desc' => 'main#desc'
+  get 'seq' => 'main#seq'
   
-  get 'main/next' => 'main#npage'
+  get 'next' => 'main#npage'
   
-  get 'main/prev' => 'main#ppage'
+  get 'prev' => 'main#ppage'
 
-  get 'main/search' => 'main#search'
+  get 'search' => 'main#search'
   
-  get 'main/holes' => 'main#holes'
+  get 'holes' => 'main#holes'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

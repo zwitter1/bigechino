@@ -1,52 +1,68 @@
 // Place all the styles related to the landing controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#welcome {
-    background-color: #2d9cdb;
-    color: white;
-    font-family: serif;
-    font-style: oblique;
-    font-weight: bold;
-    text-align: center;
-    top: 0px;
-    padding-top: 20px;
-    position: absolute;
-    margin-top: 0px;
-    width: 100%;
-    left: 0px;
+
+
+#tabletop{
+	position: relative; 
+	width: 50%; 
+	height: 50%; 
+	top: 25%; 
+	background-color: lightgray; 
+	border-radius: 10px;
+	box-shadow: 14px 6px 26px -2px black; 
+	max-height: 300px;
+    max-width: 600px;
+    min-height: 220px;
+    min-width: 382px;
+	margin-left: auto;
+    margin-right: auto;
+    border: 2px solid;
+	#passform{
+		width: 340px;
+		height: 60px; 
+		position: absolute; 
+		left: calc(50% - 170px);
+		top: 25%;
+		input{
+			position:relative; 
+			float:right;
+		}
+		label{
+			position:relative; 
+			
+		}
+		#namelabel{
+			left: 8px;
+		}
+		
+		#pwlabel{
+			top: 21px;
+		}
+	}
+
 }
 
-#info {
-    height: calc(100% - 176px);
-    left: 5px;
-    margin-top: 20px;
+
+#backdrop{
+	background-color: #2d9cdb;
+    height: 100%;
+    left: 0;
     position: absolute;
-    top: 62px;
-    width: calc(50% - 5px);
+    top: 0;
+    width: 100%;
 }
 
 #enterBut{
 	background-color: #2d9cdb;
 	color:white;
-	width: 200px; 
-	height: 100px;
+	width: 150px; 
+	height: 80px;
 	border:solid 1px black; 
 	font-size: 20px;
-	border-radius: 2px;
+	border-radius: 5px;
 	position: absolute; 
 	bottom: 10px; 
-	left: calc(50% - 100px);
+	left: calc(50% - 75px);
 }
 
-#treeImage {
-    background-image:image-url('treed3.jpg');
-    background-repeat: no-repeat;
-    background-size: contain !important;
-    height: 100px;
-    position: absolute;
-    right: 5px;
-    top: 62px;
-    width: calc(50% - 5px);
-    height: calc(100% - 176px);
-    z-index: 2;
-    }

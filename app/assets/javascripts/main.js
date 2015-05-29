@@ -57,7 +57,7 @@ $(document).ready(function(){
 	
 	$("#previous").click(function(){
 		if (currentPos == 1000 || currentPos == 0){
-			$("#buttonSet").addClass('wobble animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$("#buttonSet").addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 				$(this).removeClass();
 			});
 			return;
@@ -98,7 +98,7 @@ $(document).ready(function(){
 	
 	$("#next").click(function(){
 		if(currentPos == 0){
-			$("#buttonSet").addClass('wobble animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$("#buttonSet").addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 				$(this).removeClass();
 			});
 			return;
@@ -136,17 +136,21 @@ $(document).ready(function(){
 	
 	$("#runSearch").click(function(){
 		taxon = $("#taxonIn").val();
-		description = $("#descIn").val();
 		readD = $("#readIn").val();
 		go = $("#goIn").val();	
 		page = "search"
+		
+		if (taxon == "None"){
+			taxon = ""
+		}
+		
 		currentPos = 0;
 		$(".spinner").show()
 		$(".spinner").addClass('fadeInUp animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 				$(this).removeClass().addClass('spinner');
 			});
 		
-		var data= [taxon, description, readD, go]		
+		var data= [taxon, readD, go]		
 		$.ajax({
 			url: 'search',
 			type: 'GET',

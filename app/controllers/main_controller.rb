@@ -1,10 +1,16 @@
 class MainController < ApplicationController
   def browse
-	  render layout: false 
+	  redirect_to '/'
   end
   
   def primary 
-	  render "browse"
+	  loggedIn = session[:loggedIn]
+	  
+	  if(loggedIn == true)	
+		render "browse"
+	  else
+		redirect_to '/'
+	  end
   end 
   
   def desc(starting = 0)
@@ -98,17 +104,17 @@ class MainController < ApplicationController
 		# run the queries based on weather or not parameters were passed	
 		if whereclause != nil
 			puts "Attempting query"
-			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :taxaclass, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).where(*whereclause).limit(10).offset(starting).distinct
+			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :genus, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).where(*whereclause).limit(10).offset(starting)#.distinct
 			puts "post query"
 		else
-			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :taxaclass, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).limit(1000).offset(starting).distinct	
+			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :genus, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).limit(1000).offset(starting).distinct	
 		end	  
 		
 		retStr = "<table><tr><th>Header</th><th>Taxon</th><th>Amino Sequence</th><th>Coding Sequence</th><th>Nucleotide Sequence</th><th>Description</th><th>Read Depth</th><th>Go Reduction</th>" 
 		puts "building results"  
 		#binding.pry
 		for accession in results
-	    	retStr += "<tr><td>#{accession.header}</td><td>#{accession.taxaclass}</td><td class='sequence'><div class='scrollable'>#{accession.protein_sequence}</div></td><td class='sequence'><div class='scrollable'>#{accession.coding_sequence}</div></td><td class='sequence'><div class='scrollable'>#{accession.raw_nucleotide}</div></td><td>#{accession.interpro_desc}</td><td>#{accession.read_depth}</td><td>#{accession.name}</td></tr>"
+	    	retStr += "<tr><td>#{accession.header}</td><td>#{accession.genus}</td><td class='sequence'><div class='scrollable'>#{accession.protein_sequence}</div></td><td class='sequence'><div class='scrollable'>#{accession.coding_sequence}</div></td><td class='sequence'><div class='scrollable'>#{accession.raw_nucleotide}</div></td><td>#{accession.interpro_desc}</td><td>#{accession.read_depth}</td><td>#{accession.name}</td></tr>"
 	    end
 		puts "returning"
 		#binding.pry
@@ -118,7 +124,7 @@ class MainController < ApplicationController
 		 
 	end	
    
-   # taxon, description, readD, go
+   # taxon, readD, go
    def whereparams(input)
 	   param = []
 	   whereStr = ''
@@ -132,15 +138,10 @@ class MainController < ApplicationController
 		   end
 		   if pos == 1
 		   		if i.length > 0  
-			   		whereStr << "interpro_desc LIKE ? AND "
+			   		whereStr << "read_depth = ? AND "
 				end
 		   end
 		   if pos == 2
-		   		if i.length > 0  
-			   		whereStr << "read_depth LIKE ? AND "
-				end
-		   end
-		   if pos == 3
 		   		if i.length > 0 
 			   		whereStr << "name LIKE ? AND "
 				end

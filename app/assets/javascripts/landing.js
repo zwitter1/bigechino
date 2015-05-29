@@ -1,11 +1,14 @@
 $(document).ready(function(){
 	
 	$("#enterBut").click(function(){
+		
+		
 		$.ajax({
-			url:'main/browse',
+			url:'landing/test',
 			type:'GET',
+			data: {"user": $("#loginName").val(), "pass":$("#loginPW").val() },
 			success:function(data){
-				$("body").html(data)
+				$("body").html(data);
 			}
 			
 		})
