@@ -56,7 +56,7 @@ $(document).ready(function(){
 	});
 	
 	$("#previous").click(function(){
-		if (currentPos == 1000 || currentPos == 0){
+		if (currentPos == null){
 			$("#buttonSet").addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 				$(this).removeClass();
 			});
@@ -140,13 +140,23 @@ $(document).ready(function(){
 	});
 	
 	$("#runSearch").click(function(){
+		taxclass = $("#class").val();
 		taxon = $("#taxonIn").val();
-		readD = $("#readIn").val();
-		go = $("#goIn").val();	
+		readSD = $("#readstartIn").val();
+		readED = $("#readendIn").val();
+		go = $("#goIn").val();
+		desc = $("#descIn").val();	
 		page = "search"
+		
+		gocheck = $("#inclGo")[0].checked;
+		
+		checkval = $("input[name='querytype']:checked").val();
 		
 		if (taxon == "None"){
 			taxon = ""
+		}
+		if (taxclass == "None"){
+			taxclass = ""
 		}
 		
 		currentPos = 0;
@@ -155,11 +165,11 @@ $(document).ready(function(){
 				$(this).removeClass().addClass('spinner');
 			});
 		
-		var data= [taxon, readD, go]		
+		var data= [taxclass, taxon,readSD,readED, go, desc]		
 		$.ajax({
-			url: 'search',
+			url: 'eval',
 			type: 'GET',
-			data: {"data": data , "count": $("#count").val()},
+			data: {"data": data , "count": $("#count").val(),"checked":checkval,"go":gocheck},
 			success:function(retData){
 				$(".spinner").hide()
 				show = $.parseHTML(retData);

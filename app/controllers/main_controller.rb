@@ -53,6 +53,7 @@ class MainController < ApplicationController
 	   page = params['page']
 	   data = params['data']
 	   count = params['count']
+	   go = params['go']
 	   
 	   if page == 'sequence'
 	   	seq(start)
@@ -68,11 +69,12 @@ class MainController < ApplicationController
 	   page = params['page']
 	   data = params['data']
 	   count = params['count']
+	   go = params['go']
 	   
 	   if page == 'sequence'
 	   	seq(start)
 	   else if page == "search"
-	   	search(start, data, count)
+	   	search(start, data, count,go)
 	   end
    end
    end
@@ -92,7 +94,7 @@ class MainController < ApplicationController
    
    
    
-   def search(starting = 0, data = nil, count = 10)
+   def search(starting = 0, data = nil, count = 10,go)
 	    indata = nil
 	    if params['count'].length > 0 
 			count = params['count'].to_i 
@@ -109,10 +111,10 @@ class MainController < ApplicationController
 		# run the queries based on weather or not parameters were passed	
 		if whereclause != nil
 			puts "Attempting query"
-			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :genus, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).where(*whereclause).limit(count).offset(starting)#.distinct
+			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth, :name).where(*whereclause).limit(count).offset(starting)#.distinct
 			puts "post query"
 		else
-			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header, :genus, :protein_sequence, :coding_sequence, :raw_nucleotide, :interpro_desc, :read_depth, :name).limit(count).offset(starting).distinct	
+			results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth, :name).limit(count).offset(starting).distinct	
 		end	  
 		
 		retStr = "<table><tr><th>Header</th><th>Taxon</th><th>Amino Sequence</th><th>Coding Sequence</th><th>Nucleotide Sequence</th><th>Description</th><th>Read Depth</th><th>Go Reduction</th>" 
@@ -128,6 +130,23 @@ class MainController < ApplicationController
 		
 		 
 	end	
+   
+   
+   def evaluate 
+	 	puts "evaluating..."
+	    data =  params['data']
+	    checked = params['checked']
+	    go = params['go']
+	    count = params['count']
+	    binding.pry
+	    if checked == 'search'
+		   search(0,data,count,checked) 
+		end
+	    
+	    
+   end
+   
+   
    
    # taxon, readD, go
    def whereparams(input)

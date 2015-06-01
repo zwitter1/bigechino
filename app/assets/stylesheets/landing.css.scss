@@ -24,20 +24,21 @@
 		position: absolute; 
 		left: calc(50% - 170px);
 		top: 25%;
+		text-align: center;
 		input{
 			position:relative; 
-			float:right;
+			
 		}
 		label{
 			position:relative; 
 			
 		}
 		#namelabel{
-			left: 8px;
+			
 		}
 		
 		#pwlabel{
-			top: 21px;
+		
 		}
 	}
 

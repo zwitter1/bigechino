@@ -93,6 +93,7 @@ table{
 	margin-right: auto; 
 	margin-top:10px;
 	color:white;
+	text-align: center;
 }
 
 	
@@ -213,6 +214,44 @@ table{
 .spinner .rect5 {
   -webkit-animation-delay: -0.8s;
   animation-delay: -0.8s;
+}
+
+#rdspan{
+	font-size: 12px;
+	position:relative;
+	top:-5px;
+}
+
+input{
+	text-align: center;
+}
+
+#readendIn{
+	position:relative;
+	top:-7px;
+}
+
+#radiolist{
+	text-decoration: none;
+	display: inline;
+	list-style-type: none;
+	padding: 0px;
+	position: relative;
+	top:5px;
+	li{
+		width:30px;
+		display: inline-block;
+		font-size: 10px;
+	}
+}
+
+#runSearch{
+	position:relative;
+	top:5px;
+}
+
+#classIn{
+	width:140px;
 }
 
 @-webkit-keyframes stretchdelay {
