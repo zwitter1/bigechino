@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   get 'holes' => 'main#holes'
   
   get 'eval' => 'main#evaluate'
+  
+  get 'getFiles' => 'main#getFiles'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

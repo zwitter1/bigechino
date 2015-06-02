@@ -10,7 +10,7 @@ $(document).ready(function(){
 	//$("#buttonSet").hide(); 
 	$(".spinner").hide()
 	$("#allDesc").click(function(){
-		
+	$("#downloader").hide();	
 		currentPos = 0; 
 		$.ajax({
 			url:'desc',
@@ -140,7 +140,7 @@ $(document).ready(function(){
 	});
 	
 	$("#runSearch").click(function(){
-		taxclass = $("#class").val();
+		taxclass = $("#classIn").val();
 		taxon = $("#taxonIn").val();
 		readSD = $("#readstartIn").val();
 		readED = $("#readendIn").val();
@@ -165,16 +165,22 @@ $(document).ready(function(){
 				$(this).removeClass().addClass('spinner');
 			});
 		
-		var data= [taxclass, taxon,readSD,readED, go, desc]		
+		var data= [taxclass, taxon,readSD,readED, go, desc,desc]		
 		$.ajax({
 			url: 'eval',
 			type: 'GET',
 			data: {"data": data , "count": $("#count").val(),"checked":checkval,"go":gocheck},
 			success:function(retData){
-				$(".spinner").hide()
-				show = $.parseHTML(retData);
-				$("#tableHolder").html(show);
-				//currentPos = currentPos + Number($("#count").val());
+				
+				if(retData.file == 0){
+					show = $.parseHTML(retData.html);
+					$("#tableHolder").html(show);
+					//currentPos = currentPos + Number($("#count").val());
+				}
+				else{
+					$(".spinner").hide()
+					$("#downloader")[0].click();
+				}
 			}
 		});
 	});
