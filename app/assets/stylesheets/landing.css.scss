@@ -26,11 +26,17 @@
 		top: 25%;
 		text-align: center;
 		input{
-			position:relative; 
+			position:relative;
+			border: 1px solid black;
+			box-shadow: 3px 1px 5px -1px black;
+			height: 20px;
+			position: relative;
+			width: 60%; 
 			
 		}
 		label{
 			position:relative; 
+			font-style: italic;
 			
 		}
 		#namelabel{

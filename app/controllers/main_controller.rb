@@ -107,6 +107,10 @@ class MainController < ApplicationController
 		else
 			inData = data
 		end
+		
+		if count == ""
+			count = 10
+		end
 		puts "pre where clause"
 		whereclause = whereparams(inData)
 		results = nil 
@@ -118,7 +122,7 @@ class MainController < ApplicationController
 			# include go in the returned results which will make for some repeated result sets
 			if whereclause != nil
 				puts "Attempting query"
-				results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth, :name).where(*whereclause).limit(count).offset(starting)#.distinct
+				results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth, :name).where(*whereclause).limit(count).offset(starting).distinct
 				puts "post query"
 			else
 				results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth, :name).limit(count).offset(starting).distinct	
@@ -136,7 +140,7 @@ class MainController < ApplicationController
 			#exclude go which will strip down the result set
 			if whereclause != nil
 				puts "Attempting query"
-				results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth).where(*whereclause).limit(count).offset(starting)#.distinct
+				results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth).where(*whereclause).limit(count).offset(starting).distinct
 				puts "post query"
 			else
 				results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth).limit(count).offset(starting).distinct	
@@ -187,7 +191,9 @@ class MainController < ApplicationController
 		f = File.new("amino.fasta","w")
 		
 		for accession in results
-			f.write(">#{accession.header}.#{accession.taxaclass}.#{accession.genus}.#{accession.read_depth}\n#{accession.protein_sequence}\n")
+			
+			realheader = accession.header.sub("|",".")
+			f.write(">#{realheader}.#{accession.taxaclass}.#{accession.genus}.#{accession.read_depth}\n#{accession.protein_sequence}\n")
 		end
 		
 		f.close
@@ -216,7 +222,8 @@ class MainController < ApplicationController
 		f = File.new("coding.fasta","w")
 		
 		for accession in results
-			f.write(">#{accession.header}.#{accession.taxaclass}.#{accession.genus}.#{accession.read_depth}\n#{accession.coding_sequence}\n")
+			realheader = accession.header.sub("|",".")
+			f.write(">#{realheader}.#{accession.taxaclass}.#{accession.genus}.#{accession.read_depth}\n#{accession.coding_sequence}\n")
 		end
 		
 		f.close
@@ -245,7 +252,8 @@ class MainController < ApplicationController
 		f = File.new("nucleotides.fasta","w")
 		
 		for accession in results
-			f.write(">#{accession.header}.#{accession.taxaclass}.#{accession.genus}.#{accession.read_depth}\n#{accession.raw_nucleotide}\n")
+			realheader = accession.header.sub("|",".")
+			f.write(">#{realheader}.#{accession.taxaclass}.#{accession.genus}.#{accession.read_depth}\n#{accession.raw_nucleotide}\n")
 		end
 		
 		f.close

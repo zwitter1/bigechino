@@ -43,6 +43,24 @@ $(document).ready(function(){
 	});
 	
 	
+	$("#showwindow").click(function(){
+		$("#hider").show();
+		$("#infowindow").show()//.css({"width": "80%", "height": "80%", "top": "10%", "left":"10%"});
+		
+		/*$("#hider").addClass('fadeIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$(this).removeClass('fadeInUp animated');
+			});*/
+		
+		$("#infowindow").addClass('fadeIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$(this).removeClass('fadeInUp animated');
+			});
+	});
+	
+	$("#closeinfo").click(function(){
+		$("#hider").hide();
+		$("#infowindow").hide();
+	});
+	
 	$("#allSeq").click(function(){
 		$(".spinner").show()
 		currentPos = 0;
@@ -88,9 +106,14 @@ $(document).ready(function(){
 			
 			data = [taxclass, taxon,readSD,readED, go, desc,desc];
 			}	
-		if (currentPos > 0){	
+			if (currentPos > 0){	
+				if($("#count").val() != ""){		
 					currentPos = currentPos - Number($("#count").val()); 
+					}
+				else{
+					currentPos = currentPos - 10 
 				}
+			}
 		
 		$.ajax({
 			url: 'prev',
@@ -139,8 +162,13 @@ $(document).ready(function(){
 				taxclass = ""
 			}
 			
-			data = [taxclass, taxon,readSD,readED, go, desc,desc];	
-		currentPos = currentPos + Number($("#count").val()); 	
+			data = [taxclass, taxon,readSD,readED, go, desc,desc];
+		if($("#count").val() != ""){		
+			currentPos = currentPos + Number($("#count").val()); 
+		}
+		else{
+			currentPos = currentPos + 10 
+		}	
 		
 		$.ajax({
 			url: 'next',

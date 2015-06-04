@@ -1,3 +1,5 @@
+<div id="infowindow"><button id="closeinfo">Close</button></div>
+<div id="hider"></div>
 <div id="sideWindow">
 	<a href="getFiles" id="downloader">you shouldnt see me</a>
 	<h3>Control Panel</h3>
@@ -20,53 +22,9 @@
 			</select><br>	
 			<label for="taxonIn">Genus</label><br>
 			<select id="taxonIn"><option value="None">None
-			</option><option value="Psathryometra
-			">Psathryometra
-			</option><option value="Xyloplax">Xyloplax
-			</option><option value="Echinaster">Echinaster
-			</option><option value="Ophiocoma">Ophiocoma
-			</option><option value="Ophiothrix">Ophiothrix
-			</option><option value="Pteraster">Pteraster
-			</option><option value="Synapta">Synapta
-			</option><option value="Strongylocentrotus">Strongylocentrotus
-			</option><option value="Pisaster">Pisaster
-			</option><option value="Psolus">Psolus
-			</option><option value="Stichopus">Stichopus
-			</option><option value="Oligometra">Oligometra
-			</option><option value="Democrinus">Democrinus
-			</option><option value="Peribolaster">Peribolaster
-			</option><option value="Psilaster">Psilaster
-			</option><option value="Labidiaster">Labidiaster
-			</option><option value="Remaster">Remaster
-			</option><option value="Gephyrocrinus">Gephyrocrinus
-			</option><option value="Asthenosoma">Asthenosoma
-			</option><option value="Luidia">Luidia
-			</option><option value="Henricia">Henricia
-			</option><option value="Astropecten">Astropecten
-			</option><option value="Porania">Porania
-			</option><option value="Asteropsis">Asteropsis
-			</option><option value="Lophaster">Lophaster
-			</option><option value="Cheiraster/Luidiaster">Cheiraster/Luidiaster
-			</option><option value="Odindella">Odindella
-			</option><option value="Ptilometra">Ptilometra
-			</option><option value="Cenolia">Cenolia
-			</option><option value="Phrixometra">Phrixometra
-			</option><option value="Isometra">Isometra
-			</option><option value="Promachocrinus">Promachocrinus
-			</option><option value="Arbacia">Arbacia
-			</option><option value="Eucidaris">Eucidaris
-			</option><option value="Dendraster">Dendraster
-			</option><option value="Psolus">Psolus
-			</option><option value="Paelopatides">Paelopatides
-			</option><option value="Abyssocucumis">Abyssocucumis
-			</option><option value="Pseudostichopus">Pseudostichopus
-			</option><option value="Molpadia">Molpadia
-			</option><option value="Pannychia">Pannychia
-			</option><option value="Astrophyton">Astrophyton
-			</option><option value="Ophioderma">Ophioderma
-			</option><option value="Kowalevskii">Kowalevskii
-			</option><option value="Floridae">Floridae
-			</option></select><br>
+			</option>
+			<option value="Abyssocucumis">Abyssocucumis</option><option value="Arbacia">Arbacia</option><option value="Asteropsis">Asteropsis</option><option value="Asthenosoma">Asthenosoma</option><option value="Astropecten">Astropecten</option><option value="Astrophyton">Astrophyton</option><option value="Cenolia">Cenolia</option><option value="Cheiraster/Luidiaster">Cheiraster/Luidiaster</option><option value="Democrinus">Democrinus</option><option value="Dendraster">Dendraster</option><option value="Echinaster">Echinaster</option><option value="Eucidaris">Eucidaris</option><option value="Floridae">Floridae</option><option value="Gephyrocrinus">Gephyrocrinus</option><option value="Henricia">Henricia</option><option value="Isometra">Isometra</option><option value="Kowalevskii">Kowalevskii</option><option value="Labidiaster">Labidiaster</option><option value="Lophaster">Lophaster</option><option value="Luidia">Luidia</option><option value="Molpadia">Molpadia</option><option value="Odindella">Odindella</option><option value="Oligometra">Oligometra</option><option value="Ophiocoma">Ophiocoma</option><option value="Ophioderma">Ophioderma</option><option value="Ophiothrix">Ophiothrix</option><option value="Paelopatides">Paelopatides</option><option value="Pannychia">Pannychia</option><option value="Peribolaster">Peribolaster</option><option value="Phrixometra">Phrixometra</option><option value="Pisaster">Pisaster</option><option value="Porania">Porania</option><option value="Promachocrinus">Promachocrinus</option><option value="Pseudostichopus">Pseudostichopus</option><option value="Psilaster">Psilaster</option><option value="Psolus">Psolus</option><option value="Psolus">Psolus</option><option value="Pteraster">Pteraster</option><option value="Ptilometra">Ptilometra</option><option value="Remaster">Remaster</option><option value="Stichopus">Stichopus</option><option value="Strongylocentrotus">Strongylocentrotus</option><option value="Synapta">Synapta</option><option value="Xyloplax">Xyloplax</option>
+</select><br>
 			
 			<label for="readIn">Read Depth</label><br>
 			<input type="number" id="readstartIn" placeholder="start"><br><span id="rdspan">to</span><br><input type="number" id="readendIn" placeholder="end"><br>
@@ -98,6 +56,7 @@
 			</ul>
 			<br>
 			<button id="runSearch">Execute</button>
+			<div id="showwindow">?</div>
 		</div>
 	</div>	
 	<div class="spinner">
@@ -106,7 +65,9 @@
 				<div class="rect3"></div>
 				<div class="rect4"></div>
 				<div class="rect5"></div>
-			</div>	
+			</div>
+			
+				
 </div>
 <div id="display">
 	<!--<div id="tableDisp" class="ui-layout-center">-->
