@@ -60,7 +60,7 @@ class MainController < ApplicationController
 	   if page == 'sequence'
 	   	seq(start)
 	   elsif page == "search"
-	   	search(start, data, count)
+	   	search(start, data, count,go)
 	   end
 	   
   
@@ -178,7 +178,7 @@ class MainController < ApplicationController
 		
 		if whereclause != nil
 			puts "Attempting query"
-			results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :protein_sequence, :read_depth).where(*whereclause).limit(1000)#.distinct
+			results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :protein_sequence, :read_depth).where(*whereclause).limit(1000).distinct
 			puts "post query"
 		else
 			results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :protein_sequence, :read_depth).limit(1000).distinct	
@@ -206,7 +206,7 @@ class MainController < ApplicationController
 		
 		if whereclause != nil
 			puts "Attempting query"
-			results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :coding_sequence, :read_depth).where(*whereclause).limit(1000)#.distinct
+			results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :coding_sequence, :read_depth).where(*whereclause).limit(1000).distinct
 			puts "post query"
 		else
 			results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :coding_sequence, :read_depth).limit(1000).distinct	
@@ -235,7 +235,7 @@ class MainController < ApplicationController
 		
 		if whereclause != nil
 			puts "Attempting query"
-			results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :raw_nucleotide, :read_depth).where(*whereclause).limit(1000)#.distinct
+			results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :raw_nucleotide, :read_depth).where(*whereclause).limit(1000).distinct
 			puts "post query"
 		else
 			results = Sequence.joins(:Foreigndb,:Taxa).select(:header,:taxaclass, :genus, :raw_nucleotide, :read_depth).limit(1000).distinct	
@@ -320,7 +320,7 @@ class MainController < ApplicationController
 		   end
 		   if pos == 5
 		   		if i.length > 0 
-			   		whereStr << "interpro_desc LIKE ? OR description LIKE ? AND "
+			   		whereStr << "((interpro_desc LIKE ?) OR (description LIKE ?)) AND "
 				end
 		   end
 		   pos = pos + 1

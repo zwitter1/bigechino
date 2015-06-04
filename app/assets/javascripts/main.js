@@ -9,8 +9,12 @@ $(document).ready(function(){
 	$("#loader-wrapper").hide()
 	//$("#buttonSet").hide(); 
 	$(".spinner").hide()
-	$("#allDesc").click(function(){
-	$("#downloader").hide();	
+	$("#downloader").hide();
+	
+	
+	
+	
+	$("#allDesc").click(function(){	
 		currentPos = 0; 
 		$.ajax({
 			url:'desc',
@@ -64,15 +68,26 @@ $(document).ready(function(){
 		}
 		
 		var data = "";
-		if(page == 'search')
+		if(page == 'search'){
+			taxclass = $("#classIn").val();
 			taxon = $("#taxonIn").val();
-			description = $("#descIn").val();
-			readD = $("#readIn").val();
+			readSD = $("#readstartIn").val();
+			readED = $("#readendIn").val();
 			go = $("#goIn").val();
+			desc = $("#descIn").val();	
+			
+			gocheck = $("#inclGo")[0].checked;
+			
 			if (taxon == "None"){
 				taxon = ""
 			}
-			data = [taxon, readD, go];	
+			
+			if (taxclass == "None"){
+				taxclass = ""
+			}
+			
+			data = [taxclass, taxon,readSD,readED, go, desc,desc];
+			}	
 		if (currentPos > 0){	
 					currentPos = currentPos - Number($("#count").val()); 
 				}
@@ -82,10 +97,10 @@ $(document).ready(function(){
 			type: 'GET',
 			data: {'stTime': currentPos, 'page': page, 'data': data, 'count': $("#count").val()},
 			success: function(data){
-				show = $.parseHTML(data);
+				show = $.parseHTML(data.html);
 				//$("#tableHolder").scrollTop(0);
-				console.log($("#tableHolder").offset());
-				console.log($("table").offset());
+				//console.log($("#tableHolder").offset());
+				//console.log($("table").offset());
 				$('#tableDisp').animate({
 					scrollTop: 0//$("#tableHolder").offset().top -20
 				},500);
@@ -107,26 +122,35 @@ $(document).ready(function(){
 		}
 		var data = "";
 		if(page == 'search')
+			taxclass = $("#classIn").val();
 			taxon = $("#taxonIn").val();
-			readD = $("#readIn").val();
+			readSD = $("#readstartIn").val();
+			readED = $("#readendIn").val();
 			go = $("#goIn").val();
+			desc = $("#descIn").val();	
+			
+			gocheck = $("#inclGo")[0].checked;
 			
 			if (taxon == "None"){
 				taxon = ""
 			}
 			
-			data = [taxon, readD, go];	
+			if (taxclass == "None"){
+				taxclass = ""
+			}
+			
+			data = [taxclass, taxon,readSD,readED, go, desc,desc];	
 		currentPos = currentPos + Number($("#count").val()); 	
 		
 		$.ajax({
 			url: 'next',
 			type: 'GET',
-			data: {'stTime': currentPos, 'page': page, 'data': data, 'count': $("#count").val()},
+			data: {'stTime': currentPos, 'page': page, 'data': data, 'count': $("#count").val(), "go":gocheck},
 			success: function(data){
-				show = $.parseHTML(data);
+				show = $.parseHTML(data.html);
 				//$("#tableHolder").scrollTop(0);
-				console.log($("#tableHolder").offset());
-				console.log($("table").offset());
+				//console.log($("#tableHolder").offset());
+				//console.log($("table").offset());
 				$('#tableDisp').animate({
 					scrollTop: 0//$("#tableHolder").offset().top -20
 				},500);
@@ -173,6 +197,7 @@ $(document).ready(function(){
 			success:function(retData){
 				
 				if(retData.file == 0){
+					$(".spinner").hide()
 					show = $.parseHTML(retData.html);
 					$("#tableHolder").html(show);
 					//currentPos = currentPos + Number($("#count").val());
