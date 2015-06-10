@@ -15,5 +15,5 @@ $(document).ready(function(){
 		
 	});
 	var halfHeight = $(window).height()/2
-	//$('#display').layout({south__size: halfHeight});
+	$('#display').layout({south__size: halfHeight});
 });

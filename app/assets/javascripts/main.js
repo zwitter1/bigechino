@@ -12,7 +12,8 @@ $(document).ready(function(){
 	$("#downloader").hide();
 	
 	
-	
+	//var halfHeight = $(window).height()/2
+	//$('#display').layout({south__size: halfHeight});
 	
 	$("#allDesc").click(function(){	
 		currentPos = 0; 
