@@ -30,6 +30,8 @@ gem 'spring',        group: :development
 # debugging gem
 gem 'pry'
 
+gem 'rubypython'
+
 # allow for composite keys
 gem 'composite_primary_keys'
 

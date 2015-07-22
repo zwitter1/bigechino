@@ -298,6 +298,56 @@ input{
     width: 125px;
 }
 
+#vizholder{
+	width: 90%;
+	height: 90%;
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	
+	
+	text {
+	  pointer-events: none;
+	}
+	
+	.grandparent text {
+	  font-weight: bold;
+	}
+	
+	rect {
+	  fill: none;
+	  stroke: #fff;
+	}
+	
+	rect.parent,
+	.grandparent rect {
+	  stroke-width: 2px;
+	}
+	
+	.grandparent rect {
+	  fill: orange;
+	}
+	
+	.grandparent:hover rect {
+	  fill: #ee9700;
+	}
+	
+	.children rect.parent,
+	.grandparent rect {
+	  cursor: pointer;
+	}
+	
+	.children rect.parent {
+	  fill: #bbb;
+	  fill-opacity: .5;
+	}
+	
+	.children:hover rect.child {
+	  fill: #bbb;
+	}
+	
+}
+
 #showwindow{
 	background-color: yellow;
     border: 1px solid black;

@@ -1,3 +1,5 @@
+
+
 class MainController < ApplicationController
   $dwnldfile = ""
 
@@ -108,6 +110,9 @@ class MainController < ApplicationController
 			inData = data
 		end
 		
+		isgo = ""
+		goterms = ""
+		
 		if count == ""
 			count = 10
 		end
@@ -122,18 +127,36 @@ class MainController < ApplicationController
 			# include go in the returned results which will make for some repeated result sets
 			if whereclause != nil
 				puts "Attempting query"
-				results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth, :name).where(*whereclause).limit(count).offset(starting).distinct
+				results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth, :name,'goterm.id').where(*whereclause).limit(count).offset(starting).distinct
 				puts "post query"
 			else
-				results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth, :name).limit(count).offset(starting).distinct	
+				results = Sequence.joins(:Foreigndb,:Goterm,:Taxa).select(:header,:taxaclass, :genus, :interpro_desc,:description,:dbname, :read_depth, :name,'goterm.id').limit(count).offset(starting).distinct	
 			end	 
 		
-		
+			
 			retStr = "<table><tr><th>Header</th><th>Class</th><th>Genus</th><th>Interpro Desc.</th><th>Alternate Description</th><th>Read Depth</th><th>Go Reduction</th>" 
 			puts "building results"  
 			#binding.pry
 			for accession in results
-				retStr += "<tr><td>#{accession.header}</td><td>#{accession.taxaclass}</td><td class='sequence'>#{accession.genus}</td><td class='sequence'>#{accession.interpro_desc}</td><td class='sequence'>#{accession.dbname}:#{accession.description}</td><td>#{accession.read_depth}</td><td>#{accession.name}</td></tr>"
+				retStr += "<tr><td>#{accession.header}</td><td>#{accession.taxaclass}</td><td class='sequence'>#{accession.genus}</td><td class='sequence'>#{accession.interpro_desc}</td><td class='sequence'>#{accession.dbname}:#{accession.description}</td><td>#{accession.read_depth}</td><td>#{accession.name}</td></tr>"		
+				if not goterms.include? accession.attributes['id'].split(":")[1]
+					goterms = goterms + accession.attributes['id'].split(":")[1] + "-"
+				end
+			end
+			
+			if goterms.length > 0
+				# try nifty python stuff
+				goterms = goterms[0...-1]
+				puts goterms
+				output = `python goparser/gotrace.py "#{goterms}"` 
+				puts output
+				puts "finished running the python script"
+				f = File.open("public/go.json", "r")
+				f.each_line do |line|
+				  isgo = isgo + line
+				end
+				puts "finished reading file in"
+				f.close	
 			end
 		
 		else
@@ -154,13 +177,14 @@ class MainController < ApplicationController
 			end
 		end
 		 
+		  
 		
 		
 		puts "returning"
 		#binding.pry
 		retStr += "</table>"
 		
-		json = {:file => 0, :html => retStr.html_safe}
+		json = {:file => 0, :html => retStr.html_safe, :godata => isgo}
 		render :json => json
 		#render html: retStr.html_safe
 		
